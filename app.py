@@ -149,8 +149,4 @@ Separate each variation with ---"""
                 st.download_button("⬇️ Download", result, file_name="captions.txt", use_container_width=True)
 
 st.divider()
-<<<<<<< HEAD
 st.caption("Built with Streamlit + Groq + LLaMA 3.3 · Your First Gen AI App 🚀")
-=======
-st.caption("Built with Streamlit + Groq + LLaMA 3.3 · Your First Gen AI App 🚀")
->>>>>>> f6f2ef7bafd457be91982973a2e25e773a404b91
