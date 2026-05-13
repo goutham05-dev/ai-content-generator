@@ -19,38 +19,51 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; }
     line-height: 1.8; white-space: pre-wrap;
 }
 .badge {
-    display: inline-block; background: #e2b96f22; color: #e2b96f;
-    border: 1px solid #e2b96f55; border-radius: 20px;
+    display: inline-block; background: #10b98122; color: #10b981;
+    border: 1px solid #10b98155; border-radius: 20px;
     padding: 2px 12px; font-size: 12px; margin-bottom: 8px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-api_key = os.getenv("OPENAI_API_KEY")
+# ── API Key setup ─────────────────────────────────────────────────────────────
+api_key = os.getenv("GROQ_API_KEY")
 if not api_key:
-    api_key = st.sidebar.text_input("🔑 OpenAI API Key", type="password", help="Get free $5 credits at platform.openai.com")
+    api_key = st.sidebar.text_input(
+        "🔑 Groq API Key",
+        type="password",
+        help="100% Free — No credit card needed!"
+    )
     if not api_key:
-        st.sidebar.warning("Enter your OpenAI API key to get started")
-        st.sidebar.markdown("👉 [Get free API key](https://platform.openai.com/signup)")
+        st.sidebar.warning("Enter your Groq API key to get started")
+        st.sidebar.markdown("👉 [Get FREE API key](https://console.groq.com) — No card needed!")
         st.stop()
 
-client = OpenAI(api_key=api_key)
+# Groq uses OpenAI-compatible API
+client = OpenAI(
+    api_key=api_key,
+    base_url="https://api.groq.com/openai/v1"
+)
 
 def generate(prompt):
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=1500
     )
     return response.choices[0].message.content
 
-st.markdown('<p class="badge">✨ Powered by OpenAI GPT</p>', unsafe_allow_html=True)
+# ── Header ────────────────────────────────────────────────────────────────────
+st.markdown('<p class="badge">⚡ Powered by Groq + LLaMA 3.3 — 100% Free</p>', unsafe_allow_html=True)
 st.title("AI Content Generator")
 st.caption("Create blogs, emails, and social captions instantly with AI")
 st.divider()
 
 tab1, tab2, tab3 = st.tabs(["📝 Blog Post", "📧 Email", "📱 Social Caption"])
 
+# ════════════════════════════════════════
+# TAB 1 — BLOG POST
+# ════════════════════════════════════════
 with tab1:
     st.subheader("Blog Post Generator")
     col1, col2 = st.columns(2)
@@ -61,6 +74,7 @@ with tab1:
         blog_length = st.selectbox("Length", ["Short (300 words)", "Medium (600 words)", "Long (1000 words)"])
         blog_audience = st.text_input("Target Audience", placeholder="e.g. Fitness beginners")
     blog_keywords = st.text_input("SEO Keywords (optional)", placeholder="e.g. morning routine, health")
+
     if st.button("✍️ Generate Blog Post", type="primary", use_container_width=True):
         if not blog_topic:
             st.warning("Please enter a topic!")
@@ -75,6 +89,9 @@ Structure: engaging title, compelling intro, 3-4 sections with subheadings, conc
                 st.markdown(f'<div class="output-box">{result}</div>', unsafe_allow_html=True)
                 st.download_button("⬇️ Download", result, file_name="blog_post.txt", use_container_width=True)
 
+# ════════════════════════════════════════
+# TAB 2 — EMAIL
+# ════════════════════════════════════════
 with tab2:
     st.subheader("Email Generator")
     col1, col2 = st.columns(2)
@@ -85,6 +102,7 @@ with tab2:
         sender_name = st.text_input("Your Name / Company", placeholder="e.g. John / TechCorp")
         recipient = st.text_input("Recipient Role", placeholder="e.g. Marketing Manager")
     email_context = st.text_area("What is the email about?", placeholder="e.g. Following up after our meeting about partnership", height=100)
+
     if st.button("📧 Generate Email", type="primary", use_container_width=True):
         if not email_context:
             st.warning("Please describe what the email is about!")
@@ -100,6 +118,9 @@ Include subject line (prefix Subject:), greeting, body, sign-off."""
                 st.markdown(f'<div class="output-box">{result}</div>', unsafe_allow_html=True)
                 st.download_button("⬇️ Download", result, file_name="email.txt", use_container_width=True)
 
+# ════════════════════════════════════════
+# TAB 3 — SOCIAL CAPTION
+# ════════════════════════════════════════
 with tab3:
     st.subheader("Social Media Caption Generator")
     col1, col2 = st.columns(2)
@@ -111,6 +132,7 @@ with tab3:
         include_emoji = st.toggle("Include Emojis", value=True)
     caption_topic = st.text_area("What is your post about?", placeholder="e.g. Launching my new online course about digital marketing", height=100)
     num_variations = st.slider("Number of variations", 1, 3, 2)
+
     if st.button("📱 Generate Captions", type="primary", use_container_width=True):
         if not caption_topic:
             st.warning("Please describe your post!")
@@ -127,4 +149,4 @@ Separate each variation with ---"""
                 st.download_button("⬇️ Download", result, file_name="captions.txt", use_container_width=True)
 
 st.divider()
-st.caption("Built with Streamlit + OpenAI GPT · Your First Gen AI App 🚀")
+st.caption("Built with Streamlit + Groq + LLaMA 3.3 · Your First Gen AI App 🚀")
