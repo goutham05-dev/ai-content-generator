@@ -26,6 +26,19 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; }
 </style>
 """, unsafe_allow_html=True)
 
+# ── API Key setup ─────────────────────────────────────────────────────────────
+api_key = os.getenv("GROQ_API_KEY")
+if not api_key:
+    api_key = st.sidebar.text_input(
+        "🔑 Groq API Key",
+        type="password",
+        help="100% Free — No credit card needed!"
+    )
+    if not api_key:
+        st.sidebar.warning("Enter your Groq API key to get started")
+        st.sidebar.markdown("👉 [Get FREE API key](https://console.groq.com) — No card needed!")
+        st.stop()
+
 # Groq uses OpenAI-compatible API
 client = OpenAI(
     api_key=api_key,
@@ -41,7 +54,7 @@ def generate(prompt):
     return response.choices[0].message.content
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown('<p class="badge">⚡ Powered by Groq + LLaMA 3.3</p>', unsafe_allow_html=True)
+st.markdown('<p class="badge">⚡ Powered by Groq + LLaMA 3.3 — 100% Free</p>', unsafe_allow_html=True)
 st.title("AI Content Generator")
 st.caption("Create blogs, emails, and social captions instantly with AI")
 st.divider()
@@ -136,4 +149,4 @@ Separate each variation with ---"""
                 st.download_button("⬇️ Download", result, file_name="captions.txt", use_container_width=True)
 
 st.divider()
-st.caption("Built with Streamlit + Groq + LLaMA 3.3 · My First Gen AI App 🚀")
+st.caption("Built with Streamlit + Groq + LLaMA 3.3 · Your First Gen AI App 🚀")
