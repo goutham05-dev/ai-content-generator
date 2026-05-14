@@ -44,7 +44,7 @@ def generate(prompt):
     return response.choices[0].message.content
 
 # ── Header ────────────────────────────────────────────────────────────────────
-st.markdown('<p class="badge">⚡ Powered by Groq + LLaMA 3.3 — 100% Free</p>', unsafe_allow_html=True)
+st.markdown('<p class="badge">⚡ Powered by Groq + LLaMA 3.3</p>', unsafe_allow_html=True)
 st.title("AI Content Generator")
 st.caption("Create blogs, emails, and social captions instantly with AI")
 st.divider()
@@ -139,4 +139,4 @@ Separate each variation with ---"""
                 st.download_button("⬇️ Download", result, file_name="captions.txt", use_container_width=True)
 
 st.divider()
-st.caption("Built with Streamlit + Groq + LLaMA 3.3 · Your First Gen AI App 🚀")
+st.caption("Built with Streamlit + Groq + LLaMA 3.3 · My First Gen AI App 🚀")
