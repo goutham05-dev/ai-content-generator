@@ -28,16 +28,6 @@ h1, h2, h3 { font-family: 'Playfair Display', serif; }
 
 # ── API Key setup ─────────────────────────────────────────────────────────────
 api_key = os.getenv("GROQ_API_KEY")
-if not api_key:
-    api_key = st.sidebar.text_input(
-        "🔑 Groq API Key",
-        type="password",
-        help="100% Free — No credit card needed!"
-    )
-    if not api_key:
-        st.sidebar.warning("Enter your Groq API key to get started")
-        st.sidebar.markdown("👉 [Get FREE API key](https://console.groq.com) — No card needed!")
-        st.stop()
 
 # Groq uses OpenAI-compatible API
 client = OpenAI(
